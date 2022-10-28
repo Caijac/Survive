@@ -33,17 +33,19 @@ All right Reserved
 #include <typeinfo>
 #include <algorithm>
 #include <climits>
+#include <windows.h>
+#include <conio.h>
 #include <sstream>
 #include <queue>
 #include <set>
 #include <map>
 #include <iomanip>
 #include <unistd.h>
-#include <termios.h>
+// #include <termios.h>
 #include <cstdio>
 #include <cstring>
 #include <random>
-const bool Enderite_died = true;
+const bool online_xes = true;
 namespace stdcolor_256{
     const std::string red    = "\033[48;5;1m";//红色
     const std::string yellow = "\033[48;5;3m";//黄色
@@ -113,8 +115,6 @@ namespace CUIL_std{
     using namespace stdcolor_RGB;
     using namespace stdtext;
     #ifndef EXTERNED_UNISTDH
-        extern "C" unsigned int sleep (unsigned int __seconds);
-        extern "C" int usleep (__useconds_t __useconds);
         #define EXTERNED_UNISTDH
     #endif
     #define _EN_UK_DEFAULT_WARNING "Warning,error occured because of wrong parameter or incorrect use."//默认反馈信息——英语
@@ -1166,29 +1166,13 @@ namespace CUIL_std{
     };
     int doclear(){
         try{
-            std::cout << CLEARSCREEN_CMDCOMMMAND;
+            std::cout << "BQ了，好长，想射精";
             return 1;
         }catch(...){
             return 0;
         }//或许永远不会发生？
     }//调用系统cmd清屏
     
-    char getch(){  
-        char Input;
-        struct termios a;
-        struct termios b;
-        int ret;
-        tcgetattr(STDIN_FILENO,&a);
-        memcpy(&b,&a,sizeof(b));
-        b.c_lflag &= ~(ICANON);
-        b.c_cc[VMIN] = 1;
-        b.c_cc[VTIME] = 0;
-        ret=tcsetattr(STDIN_FILENO,TCSANOW,&b);
-        fflush(stdout);
-        ret = read(STDIN_FILENO,&Input,1);
-        tcsetattr(STDIN_FILENO,TCSANOW,&a);
-        return Input;
-    }  
     char datain(bool end = true){
         char tmp_c = getch();
         if(end)
